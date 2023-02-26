@@ -5,7 +5,7 @@ import java.awt.event.*;
 public class MyMouseListener implements MouseListener, MouseMotionListener {
   @Override
   public void mousePressed(MouseEvent e){
-    Piece pieceClicked = App.getPiece(e.getX(), e.getY());
+    Piece pieceClicked = App.getPiece(e.getX(), e.getY() - 32);
     if(pieceClicked.isWhite == App.isWhiteTurn){
       App.selectedPiece = pieceClicked;
 
@@ -39,8 +39,8 @@ public class MyMouseListener implements MouseListener, MouseMotionListener {
   @Override
   public void mouseDragged(MouseEvent e) {
     if(App.selectedPiece != null){
-      App.selectedPiece.x = e.getX() - 32;
-      App.selectedPiece.y = e.getY() - 32 ;
+      App.selectedPiece.x = e.getX() - 36;
+      App.selectedPiece.y = e.getY() - 49;
       App.frame.repaint();
     }
   }

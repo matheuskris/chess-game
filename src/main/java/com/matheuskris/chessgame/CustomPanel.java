@@ -34,8 +34,12 @@ public class CustomPanel extends JPanel{
     }
     
     if(App.possiblePositions.size() > 0){
-      g.setColor(new Color(119, 180, 85));
       for(Integer[] position: App.possiblePositions){
+        if((position[0] + position[1]) % 2 > 0){
+          g.setColor(new Color(119, 180, 85));
+        } else {
+          g.setColor(new Color(225, 255, 208));
+        }
         g.fillRect(position[0]*64, position[1]*64, 64, 64);
       } 
     }

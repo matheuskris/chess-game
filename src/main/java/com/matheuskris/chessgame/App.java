@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import java.awt.Image;
+import java.awt.Dimension;
 import java.io.File;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -30,11 +31,12 @@ public class App {
 
     frame = new JFrame();
     frame.setBounds(10, 10, 512, 512);
-    frame.setUndecorated(true); 
 
     JPanel mainPanel = new CustomPanel(piecesList, imgs);
+    mainPanel.setPreferredSize(new Dimension(512, 512));
 
-    frame.add(mainPanel);
+    frame.getContentPane().add(mainPanel);
+    frame.pack();
     frame.addMouseListener(new MyMouseListener());
     frame.addMouseMotionListener(new MyMouseListener());
     frame.setDefaultCloseOperation(3);
