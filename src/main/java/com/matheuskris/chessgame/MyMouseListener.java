@@ -9,16 +9,21 @@ public class MyMouseListener implements MouseListener, MouseMotionListener {
     if(pieceClicked.isWhite == App.isWhiteTurn){
       App.selectedPiece = pieceClicked;
 
-      for(int y = 0; y < 8; y++){
-        for (int x = 0; x < 8; x++){
-           if(pieceClicked.canMove(x, y)){
-            Integer[] list = new Integer[2];
-            list[0] = x;
-            list[1] = y;
-            App.possiblePositions.add(list);
-           }
-        }
-      }
+
+      pieceClicked.findPossiblePositions();
+
+
+
+      // for(int y = 0; y < 8; y++){
+      //   for (int x = 0; x < 8; x++){
+      //      if(pieceClicked.canMove(x, y)){
+      //       Integer[] list = new Integer[2];
+      //       list[0] = x;
+      //       list[1] = y;
+      //       App.possiblePositions.add(list);
+      //      }
+      //   }
+      // }
     }
   }
   @Override
