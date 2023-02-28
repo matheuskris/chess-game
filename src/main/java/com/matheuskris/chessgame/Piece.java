@@ -44,6 +44,12 @@ public class Piece {
       return;
     }
 
+    if(!canMove(newXp, newYp)){
+      x = xp * 64;
+      y = yp * 64;
+      return;
+    }
+
     if(pieceInTheFutureLocation != null && pieceInTheFutureLocation.isWhite != isWhite) {
       pieceInTheFutureLocation.kill();
     }
@@ -52,12 +58,14 @@ public class Piece {
     this.yp = newYp;
     x = xp * 64;
     y = yp * 64;
-    App.isWhiteTurn = !App.isWhiteTurn;
-    String turn = App.isWhiteTurn ? "Brancas" : "Pretas";
-    System.out.println("agora é turno das peças " + turn);
+    String turn = App.isWhiteTurn ? "black" : "white";
+    App.ChangeTurn(turn);
   }
 
   public void kill() {
+    if(this.name == PieceType.KING){
+      App.restartGame();
+    }
     listOfPieces.remove(this);
   }
 
@@ -66,15 +74,19 @@ public class Piece {
 
     switch(name){
       case PAWN:
+        Piece pieceInTheFutureLocation = App.getPiece( possibleXp*64 , possibleYp*64);
         if(isWhite){
           if(yp == 6){
-            if((possibleYp == 5 || possibleYp == 4) && possibleXp == xp){
+            if((possibleYp == 5 || possibleYp == 4) && possibleXp == xp && pieceInTheFutureLocation == null){
               canIt = true;
             }
           } else {
-            if(possibleYp == yp -1 && possibleXp == xp){
+            if(possibleYp == yp - 1 && possibleXp == xp && pieceInTheFutureLocation == null){
               canIt = true;
             }
+          }
+          if(possibleYp == yp - 1 && (possibleXp == xp + 1 || possibleXp == xp - 1) && pieceInTheFutureLocation != null){
+            canIt = true;
           }
         } else {
           if(yp == 1){
@@ -85,6 +97,9 @@ public class Piece {
             if(possibleYp == yp + 1 && possibleXp == xp){
               canIt = true;
             }
+          }
+          if(possibleYp == yp + 1 && (possibleXp == xp + 1 || possibleXp == xp - 1) && pieceInTheFutureLocation != null){
+            canIt = true;
           }
         }
         break;
@@ -122,4 +137,61 @@ public class Piece {
     
     return canIt;
   }
+
+  // public void findPossiblePositions () {
+  //   int possibleXp = x;
+  //   int possibleYp = y;
+
+  //   switch(name){
+  //     case PAWN:
+  //       if(isWhite){
+  //         if(yp == 6){
+  //           possibleYp = yp - 1;
+  //           Piece pieceInTheFutureLocation = App.getPiece( possibleXp * 64 , possibleYp *64);
+  //           if(pieceInTheFutureLocation == null){
+  //             Integer[] list = new Integer[2];
+  //             list[0] = x;
+  //             list[1] = possibleYp;
+  //             App.possiblePositions.add(list);
+  //           }
+  //           possibleYp --;
+  //           pieceInTheFutureLocation = App.getPiece( possibleXp * 64 , possibleYp *64);
+  //           if(pieceInTheFutureLocation == null){
+  //             Integer[] list = new Integer[2];
+  //             list[0] = x;
+  //             list[1] = possibleYp;
+  //             App.possiblePositions.add(list);
+  //           }
+  //         } else {
+
+  //         }
+  //       } else {
+  //         if(yp == 2){
+
+  //         } else {
+
+  //         }
+  //       }
+
+        
+  //       if()
+        
+  //       break;
+  //     case BISHOP:
+        
+  //       break;
+  //     case KNIGHT:
+        
+  //       break;
+  //     case QUEEN:
+        
+  //       break;
+  //     case ROOK:
+        
+  //       break;
+  //     case KING:
+        
+  //       break;
+  //   }
+  // }
 }

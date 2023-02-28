@@ -17,6 +17,7 @@ public class CustomPanel extends JPanel{
     this.imagesList = imgs;
   }
 
+  @Override
   public void paint(java.awt.Graphics g) {
     boolean isWhite = true;
 

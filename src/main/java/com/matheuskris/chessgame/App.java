@@ -3,25 +3,28 @@ package com.matheuskris.chessgame;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import javax.imageio.ImageIO;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import java.awt.Image;
 import java.awt.Dimension;
-import java.io.File;
 import java.awt.image.BufferedImage;
+import java.awt.GridLayout;
+import java.awt.BorderLayout;
+
+import javax.imageio.ImageIO;
+import java.io.File;
 import java.io.IOException;
 
-import javax.swing.*;
 
 public class App {
   
-  static String IMAGES_PIECES_LOCATION_FILE = "C:\\Users\\Matheus\\Documents\\JAVA DEVELOPMENT\\chessPieces.png";
+  static String IMAGES_PIECES_LOCATION_FILE = "src\\assets\\chessPieces.png";
   public static LinkedList<Piece> piecesList = new LinkedList<>();
   public static Piece selectedPiece = null;
-  public static JFrame frame;
+  public static CustomFrame frame;
   public static Boolean isWhiteTurn = true;
   public static ArrayList<Integer[]> possiblePositions = new ArrayList<>();
+  public static AsidePanel asidePanel;
 
   public static void main( String[] args ) throws IOException {
 
@@ -29,20 +32,22 @@ public class App {
 
     getChessPieces(piecesList);
 
-    frame = new JFrame();
-    frame.setBounds(10, 10, 512, 512);
+    frame = new CustomFrame();
 
-    JPanel mainPanel = new CustomPanel(piecesList, imgs);
+    CustomPanel mainPanel = new CustomPanel(piecesList, imgs);
+    mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
     mainPanel.setPreferredSize(new Dimension(512, 512));
+    mainPanel.setLayout(new GridLayout(1,2));
 
-    frame.getContentPane().add(mainPanel);
-    frame.pack();
-    frame.addMouseListener(new MyMouseListener());
-    frame.addMouseMotionListener(new MyMouseListener());
-    frame.setDefaultCloseOperation(3);
-    frame.setVisible(true);
+    asidePanel = new AsidePanel();
+    
 
-    System.out.println("The game Started, now is white turn");
+    frame.add(mainPanel, BorderLayout.WEST);
+    frame.setTitle("Chess");
+    frame.add(asidePanel, BorderLayout.EAST); 
+    frame.pack(); 
+
+    System.out.println("O jogo começou, agora é a vez das peças brancas");
   }
 
   private static Image[] getChessPiecesImages() throws IOException {
@@ -112,5 +117,22 @@ public class App {
       }
     }
     return null;
+  }
+
+  public static void restartGame (){
+    piecesList.clear();
+
+    getChessPieces(piecesList);
+    ChangeTurn("white");
+    frame.repaint();
+  }
+
+  public static void ChangeTurn(String pieceColor){
+    if(pieceColor == "white"){
+      isWhiteTurn = true;
+    } else {
+      isWhiteTurn = false;
+    }
+    asidePanel.currentTurnBox.setText("Current Turn: " + pieceColor);
   }
 }
